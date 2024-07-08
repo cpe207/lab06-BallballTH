@@ -3,7 +3,23 @@ import axios from "axios";
 
 /* assign interface/type to the function definition properly */
 const getTodo = async (todoId: number) => {
-  /* Your code here */
+  try{
+    const resTodo = await axios.get(`https://jsonplaceholder.typicode.com/todos/${todoId}`);
+    const Todo = resTodo.data;
+    const userId = Todo.userId;
+
+    const resUser = await axios.get(`https://jsonplaceholder.typicode.com/users/${userId}`);
+    const user = resUser.data;
+
+    return {
+      owner: user.name,
+      title: Todo.title,
+      completed: Todo.completed
+    };
+
+  }catch(err){
+    return "INVALID TODO ID";
+  }
 };
 
 //test case
